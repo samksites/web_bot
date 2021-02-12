@@ -1,40 +1,69 @@
 from selenium import webdriver
-PATH = "/Users/samkettlewell-sites/Downloads/chromedriver"
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time as tf
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time 
 
+
+PATH = "/Users/samkettlewell-sites/Downloads/chromedriver"
 driver = webdriver.Chrome(PATH)
 driver.get("https://urecregister.jmu.edu/booking/616cef9a-9c96-4ac8-8d12-9050261bfb85")
 
-tf.sleep(2)
 
-login_user = driver.find_element_by_id("txtUsername")
+def login():
 
-login_pass = driver.find_element_by_id("txtPassword")
+    try:
+        
+        login_user = WebDriverWait(driver,10).until(
+            EC.presence_of_element_located((By.ID, "txtUsername"))
+        )
 
-enter = driver.find_element_by_id("btnLogin")
+        login_pass = WebDriverWait(driver,10).until(
+            EC.presence_of_element_located((By.ID, "txtPassword"))
+        )
 
-login_user.send_keys("kettlesh")
+        enter = WebDriverWait(driver,10).until(
+            EC.presence_of_element_located((By.ID, "btnLogin"))
 
-tf.sleep(.5)
-
-login_pass.send_keys("IhateRunning4824!")
-
-tf.sleep(.5)
-
-enter.send_keys(Keys.RETURN)
-
-tf.sleep(2)
-
+    )
+        p = open("pass.txt", "r")
 
 
-buttons = driver.find_element_by_class_name("container-flex-start-justified")
+        login_user.send_keys(p.readline())
+
+        login_pass.send_keys(p.readline())
+
+        p.close()
+
+        enter.send_keys(Keys.RETURN)
+
+    except:
+        driver.quit()
 
 
-elementList = buttons.find_elements_by_tag_name("button")
+def time_slots():
 
-print("hello")
+    time.sleep(5)
+
+    driver.execute_script("document.getElementsByTagName('Button')[20].click()")
+
+    try:
+
+        slot_Times = WebDriverWait(driver,10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "booking-slot-item-right"))
+        )
+
+    except:
+        print()
+
+login()
+
+time_slots()
+
+
+
+
 
 
 
