@@ -15,6 +15,7 @@ driver.get("https://urecregister.jmu.edu/booking/616cef9a-9c96-4ac8-8d12-9050261
 
 
 
+
 def login():
 
     try:
@@ -51,40 +52,48 @@ def login():
         driver.quit()
 
 
+
+
 def time_slots():
 
     time.sleep(5)
 
-    
 
     try:
 
-        driver.execute_script("document.getElementsByTagName('Button')[20].click()")
+        driver.execute_script("document.getElementsByTagName('Button')[21].click()")
 
-        slot_Times = WebDriverWait(driver,10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "booking-slot-item-right"))
-        )
-        
-        
+        time.sleep(10)
+
+        driver.execute_script("document.getElementsByTagName('Button')[44].click()")
+
+        print("compleated")
+        driver.close()
 
     except:
         driver.close()
 
 
 
-login()
-time_slots()
+
+def pull_time():
+
+    datetime_NY = datetime.now(tz_NY)
+
+    
+    
+    
+    
+    if "02" == datetime_NY.strftime("%H"):
+        
+        login()
+        time_slots()
+        time.sleep(81000)
+
+    time.sleep(1200)
+    
+    pull_time()
+    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+pull_time()
