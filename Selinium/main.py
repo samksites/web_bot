@@ -3,12 +3,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from datetime import datetime
-import pytz
 import time 
 
-
-tz_NY = pytz.timezone('America/New_York') 
 PATH = "/Users/samkettlewell-sites/Downloads/chromedriver"
 driver = webdriver.Chrome(PATH)
 driver.get("https://urecregister.jmu.edu/booking/616cef9a-9c96-4ac8-8d12-9050261bfb85")
@@ -57,18 +53,43 @@ def time_slots():
 
     
 
-    try:
+    
 
-        driver.execute_script("document.getElementsByTagName('Button')[20].click()")
+    driver.execute_script("document.getElementsByTagName('Button')[20].click()")
 
-        slot_Times = WebDriverWait(driver,10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "booking-slot-item-right"))
-        )
+    slot_Times = WebDriverWait(driver,10).until(
+        EC.presence_of_all_elements_located((By.CLASS_NAME, "booking-slot-item"))
+    )
+
+    info = [[],[]]
+
+    for bookings in slot_Times :
+
+        spots_avalible = bookings.find_element_by_tag_name("span")
+
+        info[0].append(spots_avalible.text.split(" ", 1)[0])
+
+    for bookings in slot_Times :
+
+        spots_avalible = bookings.find_element_by_tag_name("strong")
+
+        info[1].append(spots_avalible.text)
+
+    for i in range(len(info[0])):
+        print(info[0][i] + " " + info[1][i])
+
+
+
+    
+
+        
+
+
         
         
+        
 
-    except:
-        driver.close()
+   
 
 
 
