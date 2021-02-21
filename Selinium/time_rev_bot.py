@@ -81,10 +81,10 @@ def pull_time():
     datetime_NY = datetime.now(tz_NY)
 
     
+    print(datetime_NY.strftime("%H"))
     
     
-    
-    if "02" == datetime_NY.strftime("%H"):
+    if "00" == datetime_NY.strftime("%H"):
         
         login()
         time_slots()
